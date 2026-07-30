@@ -16,7 +16,9 @@ import torch.nn as nn
 from torch.nn import functional as F
 
 class LayerNorm(nn.Module):
-    """ LayerNorm but with an optional bias. PyTorch doesn't support simply bias=False """
+    """ LayerNorm but with an optional bias. PyTorch doesn't support simply bias=False 
+    x=（x1，x2，......,xn),layerNormal(xi)=ai(xi-x的均值)/根号下（x的方差+e）+bi，其中ai是可学习系数参数，bi是可学习的bias
+    """
 
     def __init__(self, ndim, bias):
         super().__init__()
