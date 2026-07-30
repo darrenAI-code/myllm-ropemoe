@@ -33,7 +33,7 @@ class RMSNorm(nn.Module):
     """
     def __init__(self,ndim):
         super().__init__()
-        rmsnorm = nn.RMSNorm(normalized_shape=ndim, eps=1e-6)
+        self.rmsnorm = nn.RMSNorm(normalized_shape=ndim, eps=1e-6)
     def forward(self, input):
         return self.rmsnorm(input)
 def precompute_rope_freqs(dim, max_seq_len, theta=10000.0):
@@ -205,9 +205,11 @@ class Block(nn.Module):
 
     def __init__(self, config, layer_idx=0):
         super().__init__()
-        self.ln_1 = LayerNorm(config.n_embd, bias=config.bias)
+        #self.ln_1 = LayerNorm(config.n_embd, bias=config.bias)
+        self.ln_1 = RMSNorm(config.n_embd)
         self.attn = CausalSelfAttention(config)
-        self.ln_2 = LayerNorm(config.n_embd, bias=config.bias)
+        #self.ln_2 = LayerNorm(config.n_embd, bias=config.bias)
+        self.ln_2 = RMSNorm(config.n_embd)
         # Some layers are MoE, others are plain dense MLPs. Determined by config.
         self.use_moe = layer_idx in config.moe_layer_indices
         if self.use_moe:
