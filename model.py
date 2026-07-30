@@ -27,7 +27,15 @@ class LayerNorm(nn.Module):
 
     def forward(self, input):
         return F.layer_norm(input, self.weight.shape, self.weight, self.bias, 1e-5)
-
+class RMSNorm(nn.Module)
+    """
+        RMSNorm 
+    """
+    def __init__(self,ndim)
+        super().__init__()
+        rmsnorm = nn.RMSNorm(normalized_shape=ndim, eps=1e-6)
+    def forward(self, input):
+        return rmsnorm(input)
 def precompute_rope_freqs(dim, max_seq_len, theta=10000.0):
     """Precompute cos/sin frequency tables for Rotary Position Embedding."""
     freqs = 1.0 / (theta ** (torch.arange(0, dim, 2).float() / dim))
